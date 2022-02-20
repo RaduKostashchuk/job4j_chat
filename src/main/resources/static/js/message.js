@@ -24,17 +24,18 @@ function handleMessageSubmit(event) {
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorLeaveMessageTab').hidden = false;
-            } else if (xmlHttpRequest.status === 200) {
+            if (xmlHttpRequest.status === 200) {
                 const textArea = document.getElementById('messageText');
                 textArea.value = '';
                 drawRoom();
+            } else {
+                document.getElementById('errorLeaveMessageTab').hidden = false;
             }
         }
     }
     xmlHttpRequest.open( 'POST', 'http://localhost:8080/message/' + roomId );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(message));
 }
 

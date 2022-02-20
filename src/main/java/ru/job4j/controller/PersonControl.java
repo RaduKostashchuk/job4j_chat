@@ -12,23 +12,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/person/")
+@RequestMapping("/person")
 public class PersonControl {
 
     @Autowired
     private PersonService service;
 
-    @PostMapping("/")
+    @PostMapping("/reg")
     public ResponseEntity<PersonModel> create(@RequestBody Person person) {
         person = service.save(person);
         return person != null
                 ? new ResponseEntity<>(PersonModel.of(person), HttpStatus.CREATED)
-                :  ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
-
-    @GetMapping("/")
-    public List<PersonModel> getAll() {
-        return service.getAll().stream().map(PersonModel::of).collect(Collectors.toList());
+                : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @GetMapping("/{id}")
@@ -37,11 +32,5 @@ public class PersonControl {
         return person != null
                 ? new ResponseEntity<>(PersonModel.of(person), HttpStatus.OK)
                 : ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        service.delete(id);
-        return ResponseEntity.ok().build();
     }
 }

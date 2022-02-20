@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="user" scope="session" value="<%=request.getUserPrincipal()%>" />
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light m-1">
     <div class="container-fluid">
@@ -14,24 +12,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/">Главная</a>
+                    <a class="nav-link" href="/">Главная</a>
                 </li>
-                <c:if test="${user != null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/addroom">Создать комнату</a>
+                    <li id="createRoomLi" class="nav-item">
+                        <a class="nav-link" href="/addroom">Создать комнату</a>
                     </li>
-                </c:if>
-                <c:if test="${user == null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/login">Войти</a>
+                    <li id="loginLi" class="nav-item">
+                        <a class="nav-link" href="/login">Войти</a>
                     </li>
-                </c:if>
-                <c:if test="${user != null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/logout">
-                            <c:out value="${user.getName()}"/> | Выйти</a>
+                    <li id="logoutLi" class="nav-item">
+                        <a id="logoutA" class="nav-link" href="#" onclick="return logout()"></a>
                     </li>
-                </c:if>
             </ul>
         </div>
     </div>

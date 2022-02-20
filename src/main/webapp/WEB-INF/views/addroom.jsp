@@ -21,6 +21,7 @@
             crossorigin="anonymous"></script>
     <script src="js/lib.js"></script>
     <script src="js/sidebar.js" defer></script>
+    <script src="js/navbar.js" defer></script>
     <script src="js/addroom.js" defer></script>
 </head>
 <body>
@@ -46,7 +47,7 @@
             <div id="content" class="content">
                 <form id="addRoomForm" action="<%=request.getContextPath()%>/room/add" method="post" onsubmit="return validate()">
                     <div id="errorTab" class="alert alert-warning" role="alert" hidden>
-                        "Комната с таким названием уже существует"
+                        "Ошибка создания комнаты"
                     </div>
                     <div id="successTab" class="alert alert-info" role="alert" hidden>
                         "Комната успешно создана"

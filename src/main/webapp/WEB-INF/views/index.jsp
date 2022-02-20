@@ -22,6 +22,7 @@
     <script src="js/lib.js"></script>
     <script src="js/sidebar.js" defer></script>
     <script src="js/index.js" defer></script>
+    <script src="js/navbar.js" defer></script>
 </head>
 <body>
 <div class="container">

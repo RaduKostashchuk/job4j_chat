@@ -16,8 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
             integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
             crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/login.js"></script>
+    <script src="js/login.js" defer></script>
 </head>
 <body>
 <div class="container pt-3">
@@ -28,20 +27,13 @@
                     <p class="h5">Вход</p>
                 </div>
                 <div class="card-body">
-                    <form action="<%=request.getContextPath()%>/login" method="post" onsubmit="return validate()">
-                        <c:if test="${not empty errorMessage}">
-                            <div class="alert alert-warning" role="alert">
-                                <c:out value="${errorMessage}"/>
-                            </div>
-                        </c:if>
+                    <form id="loginForm">
+                        <div id="errorLoginTab" class="alert alert-warning" role="alert" hidden>
+                            "Вход в систему не выполнен"
+                        </div>
                         <c:if test="${not empty regMessage}">
                             <div class="alert alert-success" role="alert">
                                 <c:out value="${regMessage}"/>
-                            </div>
-                        </c:if>
-                        <c:if test="${not empty logoutMessage}">
-                            <div class="alert alert-success" role="alert">
-                                <c:out value="${logoutMessage}"/>
                             </div>
                         </c:if>
                         <div class="form-group m-1">

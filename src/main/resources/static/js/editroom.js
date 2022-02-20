@@ -24,17 +24,18 @@ function handleEditSubmit(event) {
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorEditTab').hidden = false;
-            } else if (xmlHttpRequest.status === 200) {
+            if (xmlHttpRequest.status === 200) {
                 document.getElementById('successEditTab').hidden = false;
                 drawRooms();
                 drawRoom();
+            } else {
+                document.getElementById('errorEditTab').hidden = false;
             }
         }
     }
     xmlHttpRequest.open( 'PUT', 'http://localhost:8080/room/' );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(room));
 }
 
@@ -42,14 +43,15 @@ function handleDelete() {
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorDeleteTab').hidden = false;
-            } else if (xmlHttpRequest.status === 200) {
+            if (xmlHttpRequest.status === 200) {
                 window.location.href = '/index?roomDeleted=true';
+            } else {
+                document.getElementById('errorDeleteTab').hidden = false;
             }
         }
     }
     xmlHttpRequest.open( 'DELETE', 'http://localhost:8080/room/' +  roomId);
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send();
 }
 

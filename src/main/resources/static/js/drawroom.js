@@ -56,6 +56,7 @@ function deleteMessage(messageId) {
         }
     }
     xmlHttpRequest.open( 'DELETE', 'http://localhost:8080/message/' + messageId);
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send();
 }
 

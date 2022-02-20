@@ -23,18 +23,19 @@ function handleSubmit(event) {
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorTab').hidden = false;
-                document.getElementById('successTab').hidden = true;
-            } else if (xmlHttpRequest.status === 201) {
+            if (xmlHttpRequest.status === 201) {
                 document.getElementById('successTab').hidden = false;
                 document.getElementById('errorTab').hidden = true;
                 drawRooms();
+            } else {
+                document.getElementById('errorTab').hidden = false;
+                document.getElementById('successTab').hidden = true;
             }
         }
     }
     xmlHttpRequest.open( 'POST', 'http://localhost:8080/room/' );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(room));
 }
 

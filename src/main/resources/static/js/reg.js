@@ -27,8 +27,7 @@ function handleSubmit(event) {
     }
     const user = {
         name: name,
-        password: password,
-        enabled: true
+        password: password
     };
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
@@ -40,7 +39,7 @@ function handleSubmit(event) {
             }
         }
     }
-    xmlHttpRequest.open( 'POST', 'http://localhost:8080/person/' );
+    xmlHttpRequest.open( 'POST', 'http://localhost:8080/person/reg/' );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xmlHttpRequest.send(JSON.stringify(user));
 }

@@ -8,6 +8,7 @@ import ru.job4j.domain.Room;
 import ru.job4j.model.RoomModel;
 import ru.job4j.service.RoomService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -28,23 +29,23 @@ public class RoomControl {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Room> create(@RequestBody Room room) {
-        room = service.save(room);
+    public ResponseEntity<Room> create(@RequestBody Room room, HttpServletRequest request) {
+        room = service.save(room, request);
         return room != null
                 ? new ResponseEntity<>(room, HttpStatus.CREATED)
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        return service.deleteById(id)
+    public ResponseEntity<Void> delete(@PathVariable int id, HttpServletRequest request) {
+        return service.deleteById(id, request)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Room room) {
-        return service.update(room)
+    public ResponseEntity<Void> update(@RequestBody Room room, HttpServletRequest request) {
+        return service.update(room, request)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }

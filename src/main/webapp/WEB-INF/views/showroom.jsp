@@ -23,6 +23,7 @@
             crossorigin="anonymous"></script>
     <script src="js/lib.js"></script>
     <script src="js/sidebar.js" defer></script>
+    <script src="js/navbar.js" defer></script>
     <script src="js/drawroom.js" defer></script>
     <script src="js/editroom.js" defer></script>
     <script src="js/message.js?version=1" defer></script>
