@@ -45,7 +45,7 @@
         </div>
         <div class="col-10">
             <div id="content" class="content">
-                <form id="addRoomForm" action="<%=request.getContextPath()%>/room/add" method="post" onsubmit="return validate()">
+                <form id="addRoomForm">
                     <div id="errorTab" class="alert alert-warning" role="alert" hidden>
                         "Ошибка создания комнаты"
                     </div>

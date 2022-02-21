@@ -1,26 +1,8 @@
-function validate(name, password) {
-    let alertMessage = "";
-    if (name === "") {
-        alertMessage = "Необходимо указать имя пользователя\n";
-    }
-    if (password === "") {
-        alertMessage += "Необходимо указать пароль";
-    }
-    if (alertMessage !== "") {
-        alert(alertMessage);
-        return false;
-    }
-    return true;
-}
-
 function handleLoginSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const name = data.get('username');
     const password = data.get('password');
-    if (!validate(name, password)) {
-        return;
-    }
     const user = {
         name: name,
         password: password

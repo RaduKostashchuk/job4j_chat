@@ -28,9 +28,9 @@
                     <p class="h5">Регистрация</p>
                 </div>
                 <div class="card-body">
-                    <form id="regForm" method="post">
+                    <form id="regForm">
                         <div id="errorTab" class="alert alert-warning" role="alert" hidden>
-                            "Пользователь с таким именем уже существует"
+                            Ошибка регистрации
                         </div>
                         <div class="form-group m-1">
                             <label>Имя</label>

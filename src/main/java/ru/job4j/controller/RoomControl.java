@@ -30,23 +30,18 @@ public class RoomControl {
 
     @PostMapping("/")
     public ResponseEntity<Room> create(@RequestBody Room room, HttpServletRequest request) {
-        room = service.save(room, request);
-        return room != null
-                ? new ResponseEntity<>(room, HttpStatus.CREATED)
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return new ResponseEntity<>(service.save(room, request), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id, HttpServletRequest request) {
-        return service.deleteById(id, request)
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+        service.delete(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/")
     public ResponseEntity<Void> update(@RequestBody Room room, HttpServletRequest request) {
-        return service.update(room, request)
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+        service.update(room, request);
+        return ResponseEntity.ok().build();
     }
 }

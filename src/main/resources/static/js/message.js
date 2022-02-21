@@ -1,35 +1,23 @@
-function validateMessage(text) {
-    let alertMessage = "";
-    if (text === "") {
-        alertMessage += "Сообщение не может быть пустым\n";
-    }
-    if (alertMessage !== "") {
-        alert(alertMessage);
-        return false;
-    }
-    return true;
-}
-
 function handleMessageSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     let text = data.get('messageText');
     text = text.replace(/\r?\n|\r/g, '<br>');
-    if (!validateMessage(text)) {
-        return;
-    }
     const message = {
         content: text
     };
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 200) {
+            if (xmlHttpRequest.status === 201) {
                 const textArea = document.getElementById('messageText');
                 textArea.value = '';
                 drawRoom();
-            } else {
-                document.getElementById('errorLeaveMessageTab').hidden = false;
+            } else if (xmlHttpRequest.status === 400) {
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                const errorTab = document.getElementById('errorLeaveMessageTab');
+                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab.hidden = false;
             }
         }
     }

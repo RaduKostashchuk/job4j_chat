@@ -49,19 +49,13 @@
         </div>
         <div class="col-10">
             <div id="content" class="content">
-                <div id="errorDeleteTab" class="alert alert-warning" role="alert" hidden>
-                    "Ошибка удаления комнаты"
-                </div>
                 <div id="errorEditTab" class="alert alert-warning" role="alert" hidden>
                     "Ошибка переименования комнаты"
                 </div>
                 <div id="successEditTab" class="alert alert-info" role="alert" hidden>
                     "Комната успешно переименована"
                 </div>
-                <div id="errorDeleteMessageTab" class="alert alert-warning" role="alert" hidden>
-                    "Ошибка удаления сообщения"
-                </div>
-                <div class="row">
+                <div id="editRoomMainDiv" class="row" hidden>
                     <div class="col-10">
                         <div id="editRoomDiv" class="col-8" hidden>
                             <form id="editRoomForm" method="post">
@@ -83,7 +77,7 @@
                 </div>
                 <div id="room" class="room">
                 </div>
-                <div class="row">
+                <div id="leaveMessageDiv" class="row" hidden>
                     <form id="leaveMessageForm" method="post">
                         <div class="col-10 offset-2">
                             <textarea id="messageText" class="m-1 p-1" placeholder="Новое сообщение" name="messageText" rows="2" cols="100" style="float:right"></textarea>
@@ -96,7 +90,7 @@
                     </form>
                 </div>
                 <div id="errorLeaveMessageTab" class="alert alert-warning" role="alert" hidden>
-                    "Сообщение не сохранено"
+                    Ошибка отправки сообщения
                 </div>
             </div>
         </div>

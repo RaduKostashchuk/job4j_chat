@@ -1,39 +1,26 @@
-function validate(name, password, confirm) {
-    let alertMessage = "";
-    if (name === "") {
-        alertMessage += "Необходимо указать имя пользователя\n";
-    }
-    if (password === "") {
-        alertMessage += "Необходимо указать пароль\n";
-    }
-    if (password !== confirm) {
-        alertMessage += "Пароли не совпадают";
-    }
-    if (alertMessage !== "") {
-        alert(alertMessage);
-        return false;
-    }
-    return true;
-}
-
 function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const name = data.get('name');
     const password = data.get('password');
     const confirm = data.get('confirm');
-    if (!validate(name, password, confirm)) {
-        return;
-    }
     const user = {
         name: name,
-        password: password
+        password: password,
+        confirm: confirm
     };
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorTab').hidden = false;
+            if (xmlHttpRequest.status === 400) {
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                const errorTab = document.getElementById('errorTab');
+                errorTab.hidden = false;
+                if (response.details !== undefined) {
+                    errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                } else {
+                    errorTab.innerText = response.message;
+                }
             } else if (xmlHttpRequest.status === 201) {
                 window.location.href = 'login?reg=true';
             }

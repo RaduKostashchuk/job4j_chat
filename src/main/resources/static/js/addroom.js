@@ -1,35 +1,24 @@
-function validate(name) {
-    let alertMessage = "";
-    if (name === "") {
-        alertMessage += "Необходимо указать название комнаты\n";
-    }
-    if (alertMessage !== "") {
-        alert(alertMessage);
-        return false;
-    }
-    return true;
-}
-
 function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const name = data.get('name');
-    if (!validate(name)) {
-        return;
-    }
     const room = {
         name: name
     };
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
+        const errorTab = document.getElementById('errorTab');
+        const successTab = document.getElementById('successTab');
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 201) {
-                document.getElementById('successTab').hidden = false;
-                document.getElementById('errorTab').hidden = true;
+                successTab.hidden = false;
+                errorTab.hidden = true;
                 drawRooms();
-            } else {
-                document.getElementById('errorTab').hidden = false;
-                document.getElementById('successTab').hidden = true;
+            } else if (xmlHttpRequest.status === 400){
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab.hidden = false;
+                successTab.hidden = true;
             }
         }
     }

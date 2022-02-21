@@ -33,6 +33,7 @@ function getMessage(message) {
     button.className = 'btn btn-warning m-1 deleteMessage';
     button.title = 'Удалить сообщение';
     button.name = message.id;
+    button.hidden = !isLogged();
     button.append(i);
     userBadgeMessage.className = 'badge bg-secondary';
     userBadgeMessage.innerText = message.author;
@@ -48,8 +49,11 @@ function deleteMessage(messageId) {
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 409) {
-                document.getElementById('errorDeleteMessageTab').hidden = false;
+            if (xmlHttpRequest.status === 400) {
+                const errorTab = document.getElementById('errorEditTab');
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab.hidden = false;
             } else if (xmlHttpRequest.status === 200) {
                 drawRoom();
             }
@@ -95,5 +99,25 @@ function drawRoom() {
     }
 }
 
+function isLogged() {
+    const user = localStorage.getItem('user');
+    return user !== null;
+}
+
+function drawLeaveMessage() {
+    if (isLogged()) {
+        document.getElementById('leaveMessageDiv').hidden = false;
+    }
+}
+
+function drawEditRoom() {
+    if (isLogged()) {
+        document.getElementById('editRoomMainDiv').hidden = false;
+    }
+}
+
+drawEditRoom();
+drawLeaveMessage();
 drawRoom();
+
 setInterval(drawRoom, 30000);

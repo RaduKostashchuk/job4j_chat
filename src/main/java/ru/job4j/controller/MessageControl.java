@@ -1,6 +1,5 @@
 package ru.job4j.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,20 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/message/")
 public class MessageControl {
 
-    @Autowired
-    private MessageService service;
+    private final MessageService service;
+
+    public MessageControl(MessageService service) {
+        this.service = service;
+    }
 
     @PostMapping("/{id}")
     public ResponseEntity<Void> save(@RequestBody Message message, @PathVariable int id, HttpServletRequest request) {
-        return  service.save(message, id, request) != null
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+        service.save(message, id, request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> save(@PathVariable int id, HttpServletRequest request) {
-        return  service.delete(id, request)
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+        service.delete(id, request);
+        return ResponseEntity.ok().build();
     }
 }

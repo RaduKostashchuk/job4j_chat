@@ -1,22 +1,7 @@
-function validate(name) {
-    let alertMessage = "";
-    if (name === "") {
-        alertMessage += "Необходимо указать название комнаты\n";
-    }
-    if (alertMessage !== "") {
-        alert(alertMessage);
-        return false;
-    }
-    return true;
-}
-
 function handleEditSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const name = data.get('name');
-    if (!validate(name)) {
-        return;
-    }
     const room = {
         id: roomId,
         name: name
@@ -28,8 +13,11 @@ function handleEditSubmit(event) {
                 document.getElementById('successEditTab').hidden = false;
                 drawRooms();
                 drawRoom();
-            } else {
-                document.getElementById('errorEditTab').hidden = false;
+            } else if (xmlHttpRequest.status === 400) {
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                const errorEditTab = document.getElementById('errorEditTab');
+                errorEditTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorEditTab.hidden = false;
             }
         }
     }
@@ -45,8 +33,11 @@ function handleDelete() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 200) {
                 window.location.href = '/index?roomDeleted=true';
-            } else {
-                document.getElementById('errorDeleteTab').hidden = false;
+            } else if (xmlHttpRequest.status === 400) {
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                const errorDeleteTab = document.getElementById('errorEditTab');
+                errorDeleteTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorDeleteTab.hidden = false;
             }
         }
     }

@@ -15,6 +15,9 @@ public class Person {
     @Column(nullable = false)
     private String password;
 
+    @Transient
+    private String confirm;
+
     private boolean enabled;
 
     @ManyToOne
@@ -42,6 +45,14 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
     }
 
     public boolean isEnabled() {
@@ -83,6 +94,7 @@ public class Person {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", password='" + password + '\''
+                + ", confirm='" + confirm + '\''
                 + ", enabled=" + enabled
                 + ", role=" + role
                 + '}';
