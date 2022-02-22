@@ -1,5 +1,7 @@
 package ru.job4j.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -13,6 +15,10 @@ public class Message {
     private String content;
 
     private String author;
+
+    @ManyToOne
+    @JsonIgnore
+    private Room room;
 
     public int getId() {
         return id;
@@ -36,6 +42,14 @@ public class Message {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Override

@@ -22,46 +22,44 @@ function getHead(room) {
     return head;
 }
 
-function getMessage(message) {
-    const messageParagraph = document.createElement('p');
-    const messageSpan = document.createElement('span');
-    const userBadgeMessage = document.createElement('span');
+function getEditMessageButton(id) {
+    const editLink = document.createElement('a');
+    const i = document.createElement('i');
+    editLink.className = 'btn btn-primary';
+    editLink.href = '/editmessage?message=' + id + '&room=' + roomId;
+    editLink.title = "Редактировать сообщение";
+    editLink.hidden = !isLogged();
+    i.className = 'bi-pencil-fill';
+    editLink.append(i);
+    return editLink;
+}
+
+function getDeleteMessageButton(id) {
     const button = document.createElement('button');
     const i = document.createElement('i');
     i.className = 'bi-trash-fill';
     button.type = 'button';
     button.className = 'btn btn-warning m-1 deleteMessage';
     button.title = 'Удалить сообщение';
-    button.name = message.id;
+    button.name = id;
     button.hidden = !isLogged();
     button.append(i);
+    return button;
+}
+
+function getMessage(message) {
+    const messageParagraph = document.createElement('p');
+    const messageSpan = document.createElement('span');
+    const userBadgeMessage = document.createElement('span');
     userBadgeMessage.className = 'badge bg-secondary';
     userBadgeMessage.innerText = message.author;
     messageSpan.className = 'm-1 p-2 border border-2 rounded-3 message';
     messageSpan.innerHTML = message.content + ' ';
     messageSpan.append(userBadgeMessage);
     messageParagraph.append(messageSpan);
-    messageParagraph.append(button);
+    messageParagraph.append(getEditMessageButton(message.id));
+    messageParagraph.append(getDeleteMessageButton(message.id));
     return messageParagraph;
-}
-
-function deleteMessage(messageId) {
-    const xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.onreadystatechange = function() {
-        if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
-            if (xmlHttpRequest.status === 400) {
-                const errorTab = document.getElementById('errorEditTab');
-                const response =  JSON.parse(xmlHttpRequest.responseText);
-                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
-                errorTab.hidden = false;
-            } else if (xmlHttpRequest.status === 200) {
-                drawRoom();
-            }
-        }
-    }
-    xmlHttpRequest.open( 'DELETE', 'http://localhost:8080/message/' + messageId);
-    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
-    xmlHttpRequest.send();
 }
 
 function drawRoom() {
@@ -99,15 +97,23 @@ function drawRoom() {
     }
 }
 
-function isLogged() {
-    const user = localStorage.getItem('user');
-    return user !== null;
-}
-
-function drawLeaveMessage() {
-    if (isLogged()) {
-        document.getElementById('leaveMessageDiv').hidden = false;
+function deleteMessage(messageId) {
+    const xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.onreadystatechange = function() {
+        if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
+            if (xmlHttpRequest.status === 400) {
+                const errorTab = document.getElementById('errorEditTab');
+                const response =  JSON.parse(xmlHttpRequest.responseText);
+                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab.hidden = false;
+            } else if (xmlHttpRequest.status === 200) {
+                drawRoom();
+            }
+        }
     }
+    xmlHttpRequest.open( 'DELETE', 'http://localhost:8080/message/' + messageId);
+    xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
+    xmlHttpRequest.send();
 }
 
 function drawEditRoom() {

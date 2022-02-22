@@ -1,4 +1,4 @@
-package ru.job4j.model;
+package ru.job4j.dto;
 
 import ru.job4j.domain.Person;
 import ru.job4j.domain.Role;

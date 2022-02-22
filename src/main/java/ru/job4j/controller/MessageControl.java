@@ -25,6 +25,12 @@ public class MessageControl {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PatchMapping("/edit/{id}")
+    public ResponseEntity<Void> update(@RequestBody Message message, @PathVariable int id, HttpServletRequest request) {
+        service.update(message, id, request);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> save(@PathVariable int id, HttpServletRequest request) {
         service.delete(id, request);

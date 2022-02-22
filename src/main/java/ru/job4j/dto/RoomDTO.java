@@ -1,17 +1,15 @@
-package ru.job4j.model;
+package ru.job4j.dto;
 
 import ru.job4j.domain.Room;
 
-public class RoomModel {
+public class RoomDTO {
     private int id;
     private String name;
-    private String owner;
 
-    public static RoomModel of(Room room) {
-        RoomModel model = new RoomModel();
+    public static RoomDTO of(Room room) {
+        RoomDTO model = new RoomDTO();
         model.id = room.getId();
         model.name = room.getName();
-        model.owner = room.getOwner();
         return model;
     }
 
@@ -30,12 +28,4 @@ public class RoomModel {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-}
+ }

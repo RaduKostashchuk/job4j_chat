@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.domain.Person;
 import ru.job4j.exception.RegistrationException;
-import ru.job4j.model.PersonModel;
+import ru.job4j.dto.PersonModel;
 import ru.job4j.service.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +36,12 @@ public class PersonControl {
     public ResponseEntity<PersonModel> getById(@PathVariable int id) {
         Person person = service.getById(id);
         return new ResponseEntity<>(PersonModel.of(person), HttpStatus.OK);
+    }
+
+    @PatchMapping("/edit/")
+    public ResponseEntity<Void> update(@RequestBody Person person, HttpServletRequest request) {
+        service.update(person, request);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(value = {RegistrationException.class})

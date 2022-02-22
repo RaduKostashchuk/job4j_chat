@@ -67,18 +67,18 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <button id="editRoomButton" type="button" class="btn btn-primary m-1" title="Редактировать название" style="float:right">
-                            <i class="bi-pencil-fill"></i>
-                        </button>
                         <button id="deleteRoomButton" type="button" class="btn btn-warning m-1" title="Удалить коммнату" style="float:right">
                             <i class="bi-trash-fill"></i>
+                        </button>
+                        <button id="editRoomButton" type="button" class="btn btn-primary m-1" title="Редактировать название" style="float:right">
+                            <i class="bi-pencil-fill"></i>
                         </button>
                     </div>
                 </div>
                 <div id="room" class="room">
                 </div>
                 <div id="leaveMessageDiv" class="row" hidden>
-                    <form id="leaveMessageForm" method="post">
+                    <form id="leaveMessageForm">
                         <div class="col-10 offset-2">
                             <textarea id="messageText" class="m-1 p-1" placeholder="Новое сообщение" name="messageText" rows="2" cols="100" style="float:right"></textarea>
                         </div>

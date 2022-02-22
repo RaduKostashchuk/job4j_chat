@@ -15,7 +15,7 @@ function drawRooms() {
                 let a = document.createElement('a');
                 let p = document.createElement('p');
                 td.className = 'text-center';
-                a.href = 'http://localhost:8080/showroom?id=' + rooms[i].id;
+                a.href = 'http://localhost:8080/showroom?room=' + rooms[i].id;
                 if (rooms[i].id == roomId) {
                     a.className = 'btn btn-primary';
                 } else {
@@ -32,5 +32,16 @@ function drawRooms() {
     }
 }
 
+function isLogged() {
+    const user = localStorage.getItem('user');
+    return user !== null;
+}
+
+function drawLeaveMessage() {
+    if (isLogged()) {
+        document.getElementById('leaveMessageDiv').hidden = false;
+    }
+}
+
 const params = new URLSearchParams(document.location.search);
-const roomId = params.get('id');
+const roomId = params.get('room');

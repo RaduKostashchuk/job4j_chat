@@ -6,8 +6,6 @@ import ru.job4j.domain.Room;
 import ru.job4j.exception.AuthorizationException;
 import ru.job4j.exception.EmptyArgumentException;
 import ru.job4j.repository.MessageRepository;
-import ru.job4j.repository.PersonRepository;
-import ru.job4j.repository.RoomRepository;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,32 +17,43 @@ import static ru.job4j.Util.*;
 public class MessageService {
 
     private final MessageRepository messages;
-    private final RoomRepository rooms;
-    private final PersonRepository persons;
+    private final RoomService rooms;
+    private final PersonService persons;
 
-    public MessageService(MessageRepository messages, RoomRepository rooms, PersonRepository persons) {
+    public MessageService(MessageRepository messages, RoomService rooms, PersonService persons) {
         this.messages = messages;
         this.rooms = rooms;
         this.persons = persons;
     }
 
     public void save(Message message, int id, HttpServletRequest request) {
-        Room room = rooms.findById(id).orElse(null);
+        Room room = rooms.getById(id);
         String user = getUserFromToken(request);
         if (message.getContent().isEmpty()) {
             throw new EmptyArgumentException("Текст сообщения");
         }
-        if (room == null) {
-            throw new EmptyArgumentException("Номер комнаты");
-        }
         message.setAuthor(user);
-        room.addMessage(message);
-        rooms.save(room);
+        message.setRoom(room);
+        messages.save(message);
+    }
+
+    public void update(Message message, int id, HttpServletRequest request) {
+        Message persisted = findById(id);
+        String user = getUserFromToken(request);
+        boolean isAdmin = persons.getByName(user).getRole().getName().equals("ROLE_ADMIN");
+        if (message.getContent().isEmpty()) {
+            throw new EmptyArgumentException("Текст сообщения");
+        }
+        if (!(user.equals(persisted.getAuthor()) || isAdmin)) {
+            throw new AuthorizationException("Редактирование сообщения");
+        }
+        persisted.setContent(message.getContent());
+        messages.save(persisted);
     }
 
     public void delete(int id, HttpServletRequest request) {
         String user = getUserFromToken(request);
-        boolean isAdmin = persons.findByName(user).getRole().getName().equals("ROLE_ADMIN");
+        boolean isAdmin = persons.getByName(user).getRole().getName().equals("ROLE_ADMIN");
         Message persisted = findById(id);
         if (!(user.equals(persisted.getAuthor()) || isAdmin)) {
             throw new AuthorizationException("Удаление сообщения");

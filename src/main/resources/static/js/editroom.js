@@ -21,7 +21,7 @@ function handleEditSubmit(event) {
             }
         }
     }
-    xmlHttpRequest.open( 'PUT', 'http://localhost:8080/room/' );
+    xmlHttpRequest.open( 'PATCH', 'http://localhost:8080/room/name/' );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(room));

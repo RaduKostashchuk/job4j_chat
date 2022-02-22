@@ -1,11 +1,10 @@
 package ru.job4j.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.domain.Room;
-import ru.job4j.model.RoomModel;
+import ru.job4j.dto.RoomDTO;
 import ru.job4j.service.RoomService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/room/")
 public class RoomControl {
+    private final RoomService service;
 
-    @Autowired
-    private RoomService service;
+    public RoomControl(RoomService service) {
+        this.service = service;
+    }
 
     @GetMapping("/")
-    public List<RoomModel> getAll() {
-        return service.getAll().stream().map(RoomModel::of).toList();
+    public List<RoomDTO> getAll() {
+        return service.getAll().stream().map(RoomDTO::of).toList();
     }
 
     @GetMapping("/{id}")
@@ -39,9 +40,9 @@ public class RoomControl {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Room room, HttpServletRequest request) {
-        service.update(room, request);
+    @PatchMapping("/name/")
+    public ResponseEntity<Void> update(@RequestBody RoomDTO roomDTO, HttpServletRequest request) {
+        service.update(roomDTO, request);
         return ResponseEntity.ok().build();
     }
 }

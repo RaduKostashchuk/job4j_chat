@@ -15,8 +15,7 @@ public class Room {
 
     private String owner;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "room_id")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
     public int getId() {
@@ -53,10 +52,12 @@ public class Room {
 
     public void addMessage(Message message) {
         messages.add(message);
+        message.setRoom(this);
     }
 
     public void deleteMessage(Message message) {
         messages.remove(message);
+        message.setRoom(null);
     }
 
     @Override
