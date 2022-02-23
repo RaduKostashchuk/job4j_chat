@@ -53,9 +53,6 @@
                 </p>
                 <div style="height: 20px"></div>
             </div>
-            <div id="successTab" class="alert alert-info" role="alert" hidden>
-                "Комната успешно удалена"
-            </div>
         </div>
     </div>
 </div>

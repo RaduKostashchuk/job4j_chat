@@ -5,7 +5,6 @@ import ru.job4j.dto.RoomDTO;
 import ru.job4j.domain.Room;
 import ru.job4j.exception.AlreadyExistException;
 import ru.job4j.exception.AuthorizationException;
-import ru.job4j.exception.EmptyArgumentException;
 import ru.job4j.repository.RoomRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +50,6 @@ public class RoomService {
         String user = getUserFromToken(request);
         boolean isAdmin = persons.getByName(user).getRole().getName().equals("ROLE_ADMIN");
         Room persisted = getById(roomDTO.getId());
-        if (roomDTO.getName().isEmpty()) {
-            throw new EmptyArgumentException("Название комнаты");
-        }
         if (rooms.existsByName(roomDTO.getName())) {
             throw new AlreadyExistException("Комната");
         }

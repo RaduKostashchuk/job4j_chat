@@ -7,7 +7,7 @@ function handleSubmit(event) {
     };
     const xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.onreadystatechange = function() {
-        const errorTab = document.getElementById('errorTab');
+        let errorTab = document.getElementById('errorTab');
         const successTab = document.getElementById('successTab');
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 201) {
@@ -16,7 +16,7 @@ function handleSubmit(event) {
                 drawRooms();
             } else if (xmlHttpRequest.status === 400){
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab = processError(response, errorTab);
                 errorTab.hidden = false;
                 successTab.hidden = true;
             }

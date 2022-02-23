@@ -16,8 +16,8 @@ function handleMessageSubmit(event) {
             } else if (xmlHttpRequest.status === 400) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
                 const errorTab = document.getElementById('errorLeaveMessageTab');
-                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
                 errorTab.hidden = false;
+                errorTab = processError(response, errorTab);
             }
         }
     }

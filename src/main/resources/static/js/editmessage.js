@@ -13,13 +13,12 @@ function editMessage(event) {
                 window.location.href = '/showroom?room=' + roomId;
             } else if (xmlHttpRequest.status === 400){
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
                 errorTab.hidden = false;
-                successTab.hidden = true;
+                errorTab = processError(response, errorTab);
             }
         }
     }
-    xmlHttpRequest.open( 'PATCH', 'http://localhost:8080/message/edit/' + messageId );
+    xmlHttpRequest.open( 'PATCH', 'http://localhost:8080/message/' + messageId );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(message));

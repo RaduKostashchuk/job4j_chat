@@ -49,12 +49,7 @@
         </div>
         <div class="col-10">
             <div id="content" class="content">
-                <div id="errorEditTab" class="alert alert-warning" role="alert" hidden>
-                    "Ошибка переименования комнаты"
-                </div>
-                <div id="successEditTab" class="alert alert-info" role="alert" hidden>
-                    "Комната успешно переименована"
-                </div>
+                <div id="errorEditTab" class="alert alert-warning" role="alert" hidden></div>
                 <div id="editRoomMainDiv" class="row" hidden>
                     <div class="col-10">
                         <div id="editRoomDiv" class="col-8" hidden>

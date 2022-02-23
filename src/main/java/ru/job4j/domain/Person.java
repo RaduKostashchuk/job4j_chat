@@ -1,6 +1,10 @@
 package ru.job4j.domain;
 
+import ru.job4j.valid.Operation;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @Entity
@@ -10,12 +14,15 @@ public class Person {
     private int id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String name;
 
     @Column(nullable = false)
+    @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 
     @Transient
+    @NotBlank(message = "Подтверждение пароля не может быть пустым")
     private String confirm;
 
     private boolean enabled;

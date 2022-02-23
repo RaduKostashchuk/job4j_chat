@@ -104,7 +104,7 @@ function deleteMessage(messageId) {
             if (xmlHttpRequest.status === 400) {
                 const errorTab = document.getElementById('errorEditTab');
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
+                errorTab = processError(response, errorTab);
                 errorTab.hidden = false;
             } else if (xmlHttpRequest.status === 200) {
                 drawRoom();

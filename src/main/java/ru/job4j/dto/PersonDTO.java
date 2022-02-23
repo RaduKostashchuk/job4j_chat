@@ -5,13 +5,13 @@ import ru.job4j.domain.Role;
 
 import java.util.Objects;
 
-public class PersonModel {
+public class PersonDTO {
     private int id;
     private String name;
     private Role role;
 
-    public static PersonModel of(Person person) {
-        PersonModel model = new PersonModel();
+    public static PersonDTO of(Person person) {
+        PersonDTO model = new PersonDTO();
         model.id = person.getId();
         model.name = person.getName();
         model.role = person.getRole();
@@ -50,7 +50,7 @@ public class PersonModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PersonModel that = (PersonModel) o;
+        PersonDTO that = (PersonDTO) o;
         return id == that.id;
     }
 

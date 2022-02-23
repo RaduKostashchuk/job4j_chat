@@ -43,5 +43,15 @@ function drawLeaveMessage() {
     }
 }
 
+function processError(response, errorTab) {
+    for (let element of response) {
+        errorTab.innerHTML += '<p>' + element.message + '</p>';
+        if (element.details !== undefined) {
+            errorTab.innerHTML += '<p>' + element.details + '</p>';
+        }
+    }
+    return errorTab;
+}
+
 const params = new URLSearchParams(document.location.search);
 const roomId = params.get('room');

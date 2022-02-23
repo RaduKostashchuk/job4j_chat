@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.domain.Message;
 import ru.job4j.domain.Room;
 import ru.job4j.exception.AuthorizationException;
-import ru.job4j.exception.EmptyArgumentException;
 import ru.job4j.repository.MessageRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +28,6 @@ public class MessageService {
     public void save(Message message, int id, HttpServletRequest request) {
         Room room = rooms.getById(id);
         String user = getUserFromToken(request);
-        if (message.getContent().isEmpty()) {
-            throw new EmptyArgumentException("Текст сообщения");
-        }
         message.setAuthor(user);
         message.setRoom(room);
         messages.save(message);
@@ -41,9 +37,6 @@ public class MessageService {
         Message persisted = findById(id);
         String user = getUserFromToken(request);
         boolean isAdmin = persons.getByName(user).getRole().getName().equals("ROLE_ADMIN");
-        if (message.getContent().isEmpty()) {
-            throw new EmptyArgumentException("Текст сообщения");
-        }
         if (!(user.equals(persisted.getAuthor()) || isAdmin)) {
             throw new AuthorizationException("Редактирование сообщения");
         }

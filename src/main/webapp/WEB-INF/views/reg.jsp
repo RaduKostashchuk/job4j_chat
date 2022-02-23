@@ -29,9 +29,7 @@
                 </div>
                 <div class="card-body">
                     <form id="regForm">
-                        <div id="errorTab" class="alert alert-warning" role="alert" hidden>
-                            Ошибка регистрации
-                        </div>
+                        <div id="errorTab" class="alert alert-warning" role="alert" hidden></div>
                         <div class="form-group m-1">
                             <label>Имя</label>
                             <input type="text" class="form-control" id="nameInput" name="name">

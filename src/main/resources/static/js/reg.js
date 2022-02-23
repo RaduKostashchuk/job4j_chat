@@ -16,11 +16,7 @@ function handleSubmit(event) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
                 const errorTab = document.getElementById('errorTab');
                 errorTab.hidden = false;
-                if (response.details !== undefined) {
-                    errorTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
-                } else {
-                    errorTab.innerText = response.message;
-                }
+                errorTab = processError(response, errorTab);
             } else if (xmlHttpRequest.status === 201) {
                 window.location.href = 'login?reg=true';
             }

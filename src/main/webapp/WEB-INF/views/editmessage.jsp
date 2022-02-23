@@ -45,9 +45,7 @@
         </div>
         <div class="col-10">
             <div id="content" class="content">
-                <div id="errorTab" class="alert alert-warning" role="alert" hidden>
-                    "Ошибка редактирования сообщения"
-                </div>
+                <div id="errorTab" class="alert alert-warning" role="alert" hidden></div>
                 <div style="height: 20px"></div>
                 <p class="h6 text-center m-2">
                         <span class="p-3 border border-2 rounded-3 message">

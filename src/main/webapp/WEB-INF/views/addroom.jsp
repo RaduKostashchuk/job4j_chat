@@ -45,9 +45,7 @@
         <div class="col-10">
             <div id="content" class="content">
                 <form id="addRoomForm">
-                    <div id="errorTab" class="alert alert-warning" role="alert" hidden>
-                        "Ошибка создания комнаты"
-                    </div>
+                    <div id="errorTab" class="alert alert-warning" role="alert" hidden></div>
                     <div id="successTab" class="alert alert-info" role="alert" hidden>
                         "Комната успешно создана"
                     </div>

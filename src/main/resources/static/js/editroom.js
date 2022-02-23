@@ -10,14 +10,18 @@ function handleEditSubmit(event) {
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 200) {
-                document.getElementById('successEditTab').hidden = false;
                 drawRooms();
                 drawRoom();
             } else if (xmlHttpRequest.status === 400) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                const errorEditTab = document.getElementById('errorEditTab');
-                errorEditTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
-                errorEditTab.hidden = false;
+                const errorTab = document.getElementById('errorEditTab');
+                for (let element of response) {
+                    errorTab.innerHTML += '<p>' + element.message + '</p>';
+                    if (element.details !== undefined) {
+                        errorTab.innerHTML += '<p>' + element.details + '</p>';
+                    }
+                }
+                errorTab.hidden = false;
             }
         }
     }
@@ -32,12 +36,12 @@ function handleDelete() {
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 200) {
-                window.location.href = '/index?roomDeleted=true';
+                window.location.href = '/';
             } else if (xmlHttpRequest.status === 400) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                const errorDeleteTab = document.getElementById('errorEditTab');
-                errorDeleteTab.innerHTML = '<p>' + response.message + '<br>' + response.details + '</p>';
-                errorDeleteTab.hidden = false;
+                const errorTab = document.getElementById('errorEditTab');
+                errorTab = processError(response, errorTab);
+                errorTab.hidden = false;
             }
         }
     }

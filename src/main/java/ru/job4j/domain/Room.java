@@ -1,6 +1,7 @@
 package ru.job4j.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class Room {
     private int id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Название комнаты не может быть пустым")
     private String name;
 
     private String owner;

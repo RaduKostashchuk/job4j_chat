@@ -1,62 +1,66 @@
 package ru.job4j.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.job4j.exception.AlreadyExistException;
 import ru.job4j.exception.AuthorizationException;
-import ru.job4j.exception.EmptyArgumentException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
+import javax.validation.ConstraintViolationException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private final ObjectMapper objectMapper;
-
-    public GlobalExceptionHandler(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    @ExceptionHandler(value = {EmptyArgumentException.class})
-    public void handleException1(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", "Обязательные поля не заполнены:");
-            put("details", e.getMessage());
-        }}));
-    }
 
     @ExceptionHandler(value = {AuthorizationException.class})
-    public void handleException2(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", "Нет прав доступа на операцию:");
-            put("details", e.getMessage());
-        }}));
+    public ResponseEntity<?> handleException1(Exception e) {
+        return ResponseEntity
+            .badRequest()
+            .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+            .body(List.of(Map.of("message", "Нет прав доступа на операцию:", "details", e.getMessage())));
     }
 
     @ExceptionHandler(value = {AlreadyExistException.class})
-    public void handleException3(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", "Такой объект уже существует:");
-            put("details", e.getMessage());
-        }}));
+    public ResponseEntity<?> handleException2(Exception e) {
+        return ResponseEntity
+                .badRequest()
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .body(List.of(Map.of("message", "Такой объект уже существует:", "details", e.getMessage())));
     }
 
     @ExceptionHandler(value = {NoSuchElementException.class})
-    public void handleException4(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", e.getMessage());
-        }}));
+    public ResponseEntity<?> handleException3(Exception e) {
+        return ResponseEntity
+                .badRequest()
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .body(List.of(Map.of("message", e.getMessage())));
+    }
+
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public ResponseEntity<?> handleException4(MethodArgumentNotValidException e) {
+        return ResponseEntity.badRequest().body(
+                e.getFieldErrors().stream()
+                        .map(f -> Map.of(
+                                "message",
+                                String.format("%s. Текущее значение: %s", f.getDefaultMessage(), f.getRejectedValue())
+                        ))
+                        .collect(Collectors.toList()));
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseEntity<?> handleException5(ConstraintViolationException e) {
+        return ResponseEntity.badRequest().body(
+                e.getConstraintViolations().stream()
+                        .map(violation -> Map.of(
+                                "message",
+                                violation.getMessage()
+                        )
+        ));
     }
 }

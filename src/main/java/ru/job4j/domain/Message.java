@@ -3,6 +3,7 @@ package ru.job4j.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,7 @@ public class Message {
     private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Сообщение не может быть пустым")
     private String content;
 
     private String author;
