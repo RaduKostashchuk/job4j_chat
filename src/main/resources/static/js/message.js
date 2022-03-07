@@ -15,7 +15,7 @@ function handleMessageSubmit(event) {
                 drawRoom();
             } else if (xmlHttpRequest.status === 400) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                const errorTab = document.getElementById('errorLeaveMessageTab');
+                let errorTab = document.getElementById('errorLeaveMessageTab');
                 errorTab.hidden = false;
                 errorTab = processError(response, errorTab);
             }

@@ -25,7 +25,7 @@ function handleEditSubmit(event) {
             }
         }
     }
-    xmlHttpRequest.open( 'PATCH', 'http://localhost:8080/room/name/' );
+    xmlHttpRequest.open( 'PATCH', 'http://localhost:8080/room/' );
     xmlHttpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xmlHttpRequest.setRequestHeader('Authorization', localStorage.getItem('token'));
     xmlHttpRequest.send(JSON.stringify(room));
@@ -39,7 +39,7 @@ function handleDelete() {
                 window.location.href = '/';
             } else if (xmlHttpRequest.status === 400) {
                 const response =  JSON.parse(xmlHttpRequest.responseText);
-                const errorTab = document.getElementById('errorEditTab');
+                let errorTab = document.getElementById('errorEditTab');
                 errorTab = processError(response, errorTab);
                 errorTab.hidden = false;
             }

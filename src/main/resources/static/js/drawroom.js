@@ -102,7 +102,7 @@ function deleteMessage(messageId) {
     xmlHttpRequest.onreadystatechange = function() {
         if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
             if (xmlHttpRequest.status === 400) {
-                const errorTab = document.getElementById('errorEditTab');
+                let errorTab = document.getElementById('errorEditTab');
                 const response =  JSON.parse(xmlHttpRequest.responseText);
                 errorTab = processError(response, errorTab);
                 errorTab.hidden = false;

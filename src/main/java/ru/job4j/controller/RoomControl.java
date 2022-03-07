@@ -45,7 +45,7 @@ public class RoomControl {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/name/")
+    @PatchMapping("/")
     public ResponseEntity<Void> update(@Valid @RequestBody RoomDTO roomDTO, HttpServletRequest request) {
         service.update(roomDTO, request);
         return ResponseEntity.ok().build();
