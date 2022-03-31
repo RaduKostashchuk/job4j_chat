@@ -12,6 +12,7 @@
     <artifactId>chat</artifactId>
     <version>1.0</version>
     <name>chat</name>
+    <packaging>war</packaging>
     <description>chat</description>
     <dependencies>
         <dependency>

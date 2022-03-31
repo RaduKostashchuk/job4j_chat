@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -25,7 +26,7 @@ public class RoomControl {
 
     @GetMapping("/")
     public List<RoomDTO> getAll() {
-        return service.getAll().stream().map(RoomDTO::of).toList();
+        return service.getAll().stream().map(RoomDTO::of).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
