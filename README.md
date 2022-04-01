@@ -70,9 +70,9 @@ Front-end - чистый javascript, backend - Spring Boot, аутентифик
 
 Перед запуском приложения следует создать базу данных и настроить ее в соответсвии с файлом application.properties.
 
-### Микросервисное приложение
+### Микросервисное приложение на docker-compose
 
-Приложение состоит из двух контейнеров: само приложение и база данных.
+Приложение состоит из двух контейнеров: приложение spring и база данных.
 
 Для запуска приложения нужно:
 
@@ -80,11 +80,27 @@ Front-end - чистый javascript, backend - Spring Boot, аутентифик
 
 2. Собрать приложение командой: mvn install
 
-3. Перенастроить параметры соединения с базой данных в файлах application.properties и docker-compose.yml.
+3. Перенастроить параметры соединения с базой данных в файле docker-compose.yml.
 
 4. Собрать образ приложения командой: docker build -t chat .
 
 5. Запустить приложение командой: docker-compose up
+
+### Микросервисное приложение на kubernetes
+
+В приложении два пода: spring boot и база данных.
+
+Для запуска приложения нужно:
+
+1. В файле kubernetes/postgresdb-secret.yml указать требуемые логин и пароль для базы данных.
+
+2. Загрузить данные в kubernetes: kubectl apply -f postgresdb-secret.yml
+
+3. Загрузить данные из kubernetes/postgresdb-configmap.yml: kubectl apply -f postgresdb-configmap.yml
+
+4. Развернуть сервис БД: kubectl apply -f postgresdb-deployment.yml
+
+5. Развернуть сервис spring boot: kubectl apply -f spring-deployment.yml
 
 ## Контакты
 
